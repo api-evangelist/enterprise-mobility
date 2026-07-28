@@ -1,0 +1,471 @@
+aid: enterprise-mobility
+name: Enterprise Mobility
+review:
+  question: >-
+    Does Enterprise Mobility publish a public, self-serve API surface, and what would
+    it cost a customer of its APIs to leave?
+  answer: false
+  date: '2026-07-28'
+  reviewer: API Evangelist
+  tier: car-rental
+  homeMarket: United States
+  openapiHarvested: false
+  specsCount: 0
+findings:
+  summary: |
+    Enterprise Mobility (legal parent Enterprise Holdings, Inc.; API licensor of
+    record EAN Services, LLC) operates a real, branded API Marketplace at
+    https://developer.ehi.com — an Adobe AEM site fronted by Azure AD B2C. Three
+    public marketing overview pages describe the API business lines (Rental,
+    Replacement Rental, Commute), and the API License Agreement is published in full
+    without login. Everything a developer would actually integrate against — the API
+    Catalog, API Specs, Guides, Release Notes, Client Applications — is behind the
+    B2C sign-in, and the portal states plainly: "If you are an Enterprise employee or
+    trusted Partner register and get access today". The Replacement Rental page adds:
+    "Note: Contact your account manager for more information and to request access."
+    No OpenAPI, no base URL, no endpoint, no authentication scheme and no scope list
+    is published publicly. Spec-path probes all returned AEM soft-404 HTML or 404.
+    apis[] in apis.yml therefore records the three documented business lines with
+    their public overview pages as humanURL, and no baseURL — because none is
+    published.
+  portal:
+    url: https://developer.ehi.com/
+    httpStatus: 200
+    confirmedPublic: true
+    selfServe: false
+    note: >-
+      Live and publicly reachable, but it is a partner portal, not a self-serve
+      developer portal. Anonymous navigation is limited to the homepage, three
+      apis-overview pages, Terms of Use, Privacy Policy and Contact Us. Every
+      dashboard route (api-catalog, applications, guides, get-started, faqs) 302s to
+      Azure AD B2C at apimarketplaceprod.b2clogin.com.
+  identity:
+    legalEntities:
+      - Enterprise Holdings, Inc. (owner of the intellectual property per the API License Agreement)
+      - EAN Services, LLC (the entity that licenses the APIs)
+    brands:
+      - Enterprise Rent-A-Car
+      - National Car Rental
+      - Alamo Rent a Car
+      - Enterprise Truck Rental
+      - Enterprise Fleet Management
+      - Enterprise CarShare
+      - Commute with Enterprise
+      - Entegral (wholly owned subsidiary, Madison, Wisconsin)
+    scaleAsPublished:
+      revenue: $39 billion in 2025 fiscal-year revenue
+      teamMembers: 90,000+ global team members
+      branches: 9,500+ global rental branches
+      fleet: 2.4 million+ vehicles in global fleet
+      footprint: 90+ countries & territories
+      source: https://www.enterprisemobility.com/en/about.html
+switchingCost:
+  interfaceShape:
+    value: proprietary-undocumented
+    standardsNamed:
+      - name: CIECA BMS (Business Message Suite)
+        appliesTo: Replacement Rental / Entegral / ARMS claims messaging
+        evidence: >-
+          CIECA member spotlight on Enterprise Holdings states Enterprise "uses the
+          BMS standards developed by the organization to make integrations with our
+          trading partners, sponsors and customers easier and more efficient", that
+          it has "multiple company representatives who sit on CIECA committees"
+          working on "next generation OpenAPI Standards and enhanced messaging
+          content", and that "without the standards developed by CIECA, the software
+          solutions developed by Entegral for use by collision repairers, insurers
+          and OEMs would become more difficult for partners to adopt and implement".
+        evidenceURL: https://www.cieca.com/blogs/post/member-spotlight-enterprise-holdings
+        evidenceStatus: 200
+        conformanceClaimedByEnterprise: false
+      - name: OpenTravel (OTA) vehicle messages — e.g. OTA_VehAvailRateRQ
+        appliesTo: Car rental distribution through GDS and OTA intermediaries
+        evidence: >-
+          OpenTravel is the standard message family used across car rental
+          distribution, but NO Enterprise Mobility page, portal page or license
+          document reviewed on 2026-07-28 references OpenTravel, OTA messages, or any
+          conformance claim. Recorded as an industry context, NOT as an Enterprise
+          claim. Do not treat as verified conformance.
+        conformanceClaimedByEnterprise: false
+    note: >-
+      Scored proprietary-undocumented because nothing about the actual wire contract
+      is public: no spec, no base URL, no endpoint, no auth scheme, no error model.
+      The one genuine open-standard signal is CIECA BMS on the collision/claims side,
+      and it is asserted by CIECA about Enterprise rather than published by Enterprise
+      on developer.ehi.com. The Rental and Commute lines have no standard reference at
+      all.
+  secondSource:
+    value: alternatives-with-migration
+    alternativesConsidered:
+      - name: Sixt
+        note: >-
+          Publishes a genuinely public developer portal at https://developers.sixt.com
+          (HTTP 200, confirmed 2026-07-28) listing SHARE, RENT, Ride and Sixt+ APIs.
+          The closest thing to a drop-in for a travel seller wanting supplier-direct
+          car rental content.
+      - name: Hertz
+        note: >-
+          No developer portal resolves — developer.hertz.com and developers.hertz.com
+          both fail DNS (curl exit / HTTP 000, 2026-07-28). Distribution is via GDS,
+          OTAs and aggregators.
+      - name: Avis Budget Group
+        note: >-
+          developer.avisbudget.com does not resolve (HTTP 000, 2026-07-28). Historically
+          reached through GDS and aggregator channels.
+      - name: Europcar Mobility Group
+        note: developer.europcar.com does not resolve (HTTP 000, 2026-07-28).
+      - name: Aggregators and intermediaries (CarTrawler, Amadeus Cars, Sabre Cars, Travelport)
+        note: >-
+          For a travel seller, the practical second source is an aggregator that
+          multiplexes many rental suppliers behind one contract — which substitutes
+          for the supplier relationship but not for Enterprise's own inventory.
+    note: >-
+      Two very different answers depending on who the customer is. A travel seller
+      wanting car rental inventory has real alternatives (other suppliers, or an
+      aggregator), and moving is a re-integration project rather than a rebuild of the
+      business — alternatives-with-migration. An insurer or collision repairer running
+      replacement rentals on ARMS/Entegral is much closer to few-alternatives:
+      Enterprise pioneered and dominates US replacement rental, the workflow is
+      embedded in claims operations, and no competitor publishes an equivalent partner
+      API surface. The conservative, defensible network-level value is
+      alternatives-with-migration; the replacement-rental sub-case is the one to watch.
+  exitPath:
+    value: no-export-published
+    operationCited: none
+    evidence: >-
+      No export, dump, bulk, reporting or data-portability operation is publicly
+      documented, because no operation of any kind is publicly documented. The
+      Replacement Rental overview advertises a "Data" capability group ("View critical
+      data about your organization, including average length of rental, average cost
+      of rental and more") but names no endpoint and publishes no spec. The API
+      License Agreement runs the other direction: Section 15 requires that "Upon
+      termination of this Agreement, Licensee shall immediately cease all use of the
+      APIs and delete or return any copies of the APIs and Enterprise Content."
+      Section 1 states "while Licensee Content may include Renter Information,
+      Licensee shall not have any ownership rights in any such Renter Information."
+      Section 5(d) forbids redistribution outright.
+    note: >-
+      This is worse than a missing export. The published terms affirmatively require
+      deletion or return of Enterprise Content on exit, and deny the licensee ownership
+      of the renter data it itself supplied.
+  identifierPortability:
+    value: >-
+      No identifiers are published at all — the gated catalog exposes none publicly.
+      Industry-portable keys that would apply to this segment (IATA/ARC agency numbers,
+      airport codes for airport branch location, ACRISS/SIPP vehicle class codes, GDS
+      vendor codes for the Enterprise/National/Alamo brands) are NOT named or confirmed
+      anywhere in Enterprise's own published material. The only identifiers actually
+      visible in the license prose are business-entity concepts — "Renter Information",
+      "Licensee Content", "Enterprise Content", "Application" — which are contractual
+      categories, not portable keys. Assume vendor-internal opaque IDs (ARMS/Entegral
+      claim, rental agreement and branch identifiers) behind the gate; unverified.
+    verified: false
+  contractualLockIn:
+    documentPublished: true
+    documentURL: https://developer.ehi.com/general/terms-of-use.html
+    documentHttpStatus: 200
+    documentTitle: API LICENSE AGREEMENT
+    documentVersion: Version 1.0 - effective October 18, 2022.
+    licensor: EAN Services, LLC, on behalf of Enterprise Holdings, Inc.
+    verbatim:
+      licenseGrant: >-
+        "Enterprise grants Licensee a limited, revocable, non-transferable,
+        non-sublicensable, non-exclusive right to access and use the APIs and the
+        Portal solely to the extent necessary to develop Applications that interact
+        with the APIs for the Purpose"
+      purposeRestriction: >-
+        "'Purpose' means the business purposes as may be agreed to or authorized by
+        Enterprise in writing from time to time.  Unless specifically authorized by
+        Enterprise, the Purpose is limited to Licensee's internal use only."
+      dataOwnership: >-
+        "'Licensee Content' means any data that Licensee transmits to Enterprise
+        through the APIs.  For clarity, while Licensee Content may include Renter
+        Information, Licensee shall not have any ownership rights in any such Renter
+        Information."
+      inboundLicenseToEnterprise: >-
+        "Licensee hereby grants to Enterprise a perpetual, irrevocable, worldwide,
+        royalty-free, fully paid up, transferrable, sublicensable, non-exclusive
+        license to reproduce, prepare derivative works of, distribute, publicly
+        perform, display, transmit, use, and otherwise exploit Licensee Content and any
+        Applications that Licensee submits to the Portal"
+      redistributionBan: >-
+        "Licensee is strictly forbidden from copying, reselling, leasing, licensing,
+        assigning or redistributing the APIs, Enterprise Content or any documentation
+        or software related thereto in any manner whatsoever."
+      noServiceLevels: >-
+        "Enterprise shall use commercially reasonable efforts to make the APIs
+        available to Licensee. Notwithstanding the foregoing, Enterprise does not
+        guarantee any minimum uptime, availability, accuracy or performance of the
+        APIs."
+      quotaDiscretion: >-
+        "Enterprise may set limits on use of the APIs or number of calls to the APIs
+        that each Application may make. Enterprise reserves the right to modify or add
+        to these limitations or conditions on such access upon written notice to
+        Licensee at any time for any reason"
+      breakingChangeRisk: >-
+        "If any changes to the APIs causes any disruption in the Application, Licensee
+        shall modify the Application to ensure continued service for end users.
+        Enterprise may add or remove functions or features and makes no representation
+        or warranty that the Application will continue to work with any changes to or
+        future APIs.  Enterprise shall have no liability for any costs or damages
+        caused by any changes to the APIs."
+      terminationNotice: >-
+        "Licensee may stop using the APIs at any time by providing thirty (30) days
+        written notice to Enterprise. Enterprise may for any reason or no reason,
+        without limitation to any other rights and without notice, terminate this
+        Agreement or suspend access to the APIs at any time and without liability to
+        Licensee.  Upon termination of this Agreement, Licensee shall immediately cease
+        all use of the APIs and delete or return any copies of the APIs and Enterprise
+        Content."
+      confidentiality: >-
+        "The APIs, Enterprise Content and all other information provided by Enterprise
+        or made available to Licensee pursuant to this Agreement is the confidential
+        information of Enterprise"
+      securityAudit: >-
+        "At Enterprise's request and, not more than annually, Licensee will perform a
+        third party security audit of its systems, technologies and processes relating
+        to the APIs, Enterprise Content, Portal and Application and promptly deliver a
+        written report of the results of each audit to Enterprise."
+      breachNotification: >-
+        "Licensee will immediately notify Enterprise at CSIRT@ehi.com within 24 hours
+        of any known security breaches, incidents, unauthorized access to or use of the
+        APIs"
+    notPublished:
+      - Minimum term or committed volume
+      - Exclusivity or full-content style obligations
+      - Per-transaction or per-segment fees
+      - Pricing of any kind
+      - Rate limit numbers (Section 8 reserves the right to set them, none are published)
+      - Any service level or uptime commitment (Section 7 expressly disclaims one)
+    note: >-
+      The asymmetry is the finding. The licensee owes 30 days' written notice to leave;
+      Enterprise may terminate "for any reason or no reason ... without notice" and
+      without liability. The licensee's own transmitted content is licensed to
+      Enterprise perpetually and irrevocably, while the licensee gets a revocable
+      license and must delete or return everything on exit. Commercial terms (fees,
+      minimums, exclusivity) are not published and were not inferred.
+  distributionModel:
+    value: gds-intermediated
+    note: >-
+      Enterprise Mobility is a ground-transportation supplier, not a distributor. Its
+      inventory reaches travel buyers through GDS and OTA intermediaries, corporate
+      travel programs and its own direct brand sites (enterprise.com, nationalcar.com,
+      alamo.com — all HTTP 200, 2026-07-28). No public booking, shopping, availability
+      or rate API is published for third parties; the EHI API Marketplace is a partner
+      integration channel, not a distribution channel. Specific GDS vendor codes for
+      the Enterprise/National/Alamo brands could not be verified from any Enterprise
+      published source and are deliberately NOT asserted here.
+  ndcPosture:
+    value: not applicable
+    note: >-
+      IATA NDC is an airline distribution standard. Enterprise Mobility is a car rental
+      and mobility supplier; no NDC certification, level, endpoint or surcharge posture
+      exists or was claimed. The structurally analogous question for car rental is
+      OpenTravel vehicle message conformance, and Enterprise publishes no conformance
+      claim there either.
+  accessGate:
+    value: partner-only
+    whatADeveloperMustDo:
+      - >-
+        Create an account through Azure AD B2C at apimarketplaceprod.b2clogin.com
+        (policy B2C_1A_SIGNUP, client_id a76ec3a2-3999-4162-8819-6967df6f7562), which
+        is the only "Register" path on the portal.
+      - >-
+        Qualify as "an Enterprise employee or trusted Partner" — the portal's own
+        wording on the Rental overview page.
+      - >-
+        For the Replacement Rental line, "Contact your account manager for more
+        information and to request access" — i.e. an existing commercial relationship
+        with Enterprise is a precondition, not an outcome.
+      - >-
+        Click-accept the API License Agreement v1.0 (18 October 2022), binding the
+        developer's employer entity; the developer must "represent and warrant that it
+        has the authority to bind such entity".
+      - >-
+        Create a Client Application in the marketplace and use
+        client-application.request-authorization — the authorization request is the gate
+        on each API, visible in the B2C scope list on the sign-in link.
+      - >-
+        Accept an annual third-party security audit obligation at Enterprise's request
+        and a 24-hour breach notification duty to CSIRT@ehi.com.
+    note: >-
+      Registration itself is self-serve; API access is not. Nothing in the catalog is
+      readable without an approved partner account, so the honest gate is partner-only
+      rather than application-approval.
+probes:
+  - url: https://enterprisemobility.com
+    status: 200
+    note: 301 to https://www.enterprisemobility.com/
+  - url: https://www.enterprisemobility.com/
+    status: 200
+  - url: https://www.enterprisemobility.com/en/about.html
+    status: 200
+    note: Source of the published scale figures.
+  - url: https://www.enterprisemobility.com/en/brands-services.html
+    status: 200
+  - url: https://www.enterprisemobility.com/robots.txt
+    status: 200
+    note: >-
+      Allows all by default; explicitly disallows meta-externalagent, bytespider and
+      claudebot. Lists five sitemaps, none API-related.
+  - url: https://developer.enterprisemobility.com
+    status: 000
+    note: DNS does not resolve.
+  - url: https://developers.enterprisemobility.com
+    status: 000
+    note: DNS does not resolve.
+  - url: https://api.enterprisemobility.com
+    status: 000
+    note: DNS does not resolve.
+  - url: https://docs.enterprisemobility.com
+    status: 000
+    note: DNS does not resolve.
+  - url: https://www.ehi.com
+    status: 200
+    note: Redirects to https://www.enterprisemobility.com/
+  - url: https://developer.ehi.com/
+    status: 200
+    note: >-
+      THE developer portal. EHI API Marketplace, Adobe AEM. Note it 403s to
+      browser-like user agents behind Akamai but serves 200 to a default curl UA.
+  - url: https://developer-beta.ehi.com/
+    status: 200
+    note: Beta mirror of the same marketplace; dashboard routes also 302 to B2C login.
+  - url: https://developer.ehi.com/apis-overview/rental.html
+    status: 200
+  - url: https://developer.ehi.com/apis-overview/replacement-rental.html
+    status: 200
+  - url: https://developer.ehi.com/apis-overview/commute.html
+    status: 200
+  - url: https://developer.ehi.com/general/terms-of-use.html
+    status: 200
+    note: Full API License Agreement, readable without login.
+  - url: https://developer.ehi.com/general/privacy-policy.html
+    status: 200
+  - url: https://developer.ehi.com/general/contact-us.html
+    status: 200
+  - url: https://developer.ehi.com/dashboard/api-catalog.html
+    status: 200
+    note: GATED — served body is the Azure AD B2C sign-in page, not a catalog.
+  - url: https://developer.ehi.com/dashboard/get-started.html
+    status: 200
+    note: GATED — Azure AD B2C sign-in page.
+  - url: https://developer.ehi.com/dashboard/faqs.html
+    status: 200
+    note: GATED — Azure AD B2C sign-in page.
+  - url: https://developer.ehi.com/dashboard/guides.html
+    status: 200
+    note: GATED — Azure AD B2C sign-in page.
+  - url: https://developer.ehi.com/dashboard/applications.html
+    status: 200
+    note: 302 to apimarketplaceprod.b2clogin.com (policy B2C_1A_SIGNIN).
+  - url: https://developer.ehi.com/openapi.json
+    status: 200
+    note: >-
+      NOT A SPEC. AEM soft-404 — content-type text/html, body is the marketplace 404
+      page template. Does not parse as JSON. Nothing harvested.
+  - url: https://developer.ehi.com/swagger.json
+    status: 200
+    note: NOT A SPEC. Same AEM soft-404 HTML. Does not parse as JSON.
+  - url: https://developer.ehi.com/api-docs
+    status: 200
+    note: NOT A SPEC. AEM soft-404 HTML.
+  - url: https://developer.ehi.com/.well-known/
+    status: 404
+  - url: https://developer.ehi.com/.well-known/openid-configuration
+    status: 404
+  - url: https://developer.ehi.com/.well-known/apis.json
+    status: 404
+  - url: https://developer.ehi.com/.well-known/security.txt
+    status: 404
+  - url: https://developer.ehi.com/robots.txt
+    status: 404
+  - url: https://developer.ehi.com/sitemap.xml
+    status: 404
+  - url: https://developer.ehi.com/content/apimarketplace/en_us.model.json
+    status: 503
+    note: AEM model.json export not available.
+  - url: https://www.enterprise.com/.well-known/security.txt
+    status: 404
+  - url: https://www.enterprisemobility.com/.well-known/security.txt
+    status: 404
+  - url: https://www.enterprise.com
+    status: 200
+  - url: https://www.nationalcar.com
+    status: 200
+  - url: https://www.alamo.com
+    status: 200
+  - url: https://www.entegral.com
+    status: 200
+  - url: https://developer.entegral.com
+    status: 000
+    note: DNS does not resolve — Entegral publishes no developer subdomain.
+  - url: https://api.entegral.com
+    status: 000
+    note: DNS does not resolve.
+  - url: https://docs.entegral.com
+    status: 000
+    note: DNS does not resolve.
+  - url: https://www.armsweb.com
+    status: 200
+    note: ARMS partner logon at /armslogon/logon — an application login, not an API portal.
+  - url: https://developers.sixt.com
+    status: 200
+    note: Competitor reference — public self-serve developer portal (SHARE, RENT, Ride, Sixt+).
+  - url: https://developer.hertz.com
+    status: 000
+    note: Competitor reference — DNS does not resolve.
+  - url: https://developer.avisbudget.com
+    status: 000
+    note: Competitor reference — DNS does not resolve.
+  - url: https://developer.europcar.com
+    status: 000
+    note: Competitor reference — DNS does not resolve.
+  - url: https://www.cieca.com/blogs/post/member-spotlight-enterprise-holdings
+    status: 200
+    note: Third-party evidence of CIECA BMS standards use and OpenAPI committee work.
+  - url: https://www.linkedin.com/company/enterprise-mobility
+    status: 999
+    note: LinkedIn returns 999 to automated clients; recorded as unverified.
+sources:
+  - url: https://developer.ehi.com/
+    type: Portal
+    note: EHI API Marketplace homepage; names the three business lines and the Request Access CTA.
+  - url: https://developer.ehi.com/apis-overview/rental.html
+    type: Documentation
+    note: >-
+      "Shop Enterprise APIs to discover capabilities and power your Solutions. If you
+      are an Enterprise employee or trusted Partner register and get access today to
+      our capabilities that fit your Solution."
+  - url: https://developer.ehi.com/apis-overview/replacement-rental.html
+    type: Documentation
+    note: >-
+      ARMS and Entegral described; capability groups Communication, Lifecycle, Data;
+      "Note: Contact your account manager for more information and to request access."
+  - url: https://developer.ehi.com/apis-overview/commute.html
+    type: Documentation
+    note: Commute with Enterprise vanpool API business line.
+  - url: https://developer.ehi.com/general/terms-of-use.html
+    type: TermsOfService
+    note: API License Agreement v1.0, effective October 18, 2022. Source of all verbatim clauses above.
+  - url: https://www.enterprisemobility.com/en/about.html
+    type: Website
+    note: Published scale figures ($39B FY25 revenue, 90,000+ team members, 9,500+ branches, 2.4M+ fleet, 90+ countries).
+  - url: https://www.enterprisemobility.com/en/brands-services.html
+    type: Website
+    note: Portfolio list — car rental, fleet management, flexible vehicle hire, carsharing, vanpooling, car sales, truck rental, vehicle subscription, luxury rental, technology solutions.
+  - url: https://www.cieca.com/blogs/post/member-spotlight-enterprise-holdings
+    type: Documentation
+    note: Third-party; CIECA BMS usage and next-generation OpenAPI standards committee participation.
+actions:
+  openapiDirectoryCreated: false
+  reason: >-
+    Nothing real was harvested. Every candidate spec path on developer.ehi.com returned
+    an AEM soft-404 HTML body or a hard 404, and the API Catalog that would list specs
+    is behind Azure AD B2C. No spec was invented, and no endpoint, host or scope was
+    inferred.
+  apisYmlApis: 3
+  apisYmlNote: >-
+    The three apis[] entries are the three API business lines the public portal itself
+    documents. None carries a baseURL because none is published. If a partner account
+    is ever obtained, the gated API Catalog is the place to replace these with real
+    named APIs and specs.

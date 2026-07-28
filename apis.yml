@@ -1,0 +1,139 @@
+aid: enterprise-mobility
+url: https://raw.githubusercontent.com/api-evangelist/enterprise-mobility/refs/heads/main/apis.yml
+name: Enterprise Mobility
+kind: company
+description: >-
+  Enterprise Mobility is the Clayton, Missouri parent of Enterprise Rent-A-Car,
+  National Car Rental and Alamo Rent a Car, and the largest car rental provider in
+  the world — 90,000+ team members, 9,500+ rental branches across more than 90
+  countries and territories, a global fleet of over 2.4 million vehicles and $39
+  billion in 2025 fiscal-year revenue. Beyond leisure and corporate car rental it
+  operates fleet management, flexible vehicle hire, carsharing, vanpooling, truck
+  rental, car sales, vehicle subscription and the ARMS / Entegral replacement-rental
+  technology used by insurers, collision repairers and dealerships. In the United
+  States travel distribution chain it is a ground-transportation supplier whose
+  inventory reaches buyers through GDS and OTA intermediaries, corporate travel
+  programs and its own direct brand sites, rather than through any published public
+  booking API. Its API posture is partner-gated and honestly so: EHI runs a real API
+  Marketplace at developer.ehi.com with public marketing overviews for three business
+  lines — Rental, Replacement Rental and Commute — but the API catalog, API specs,
+  guides and release notes all sit behind Azure AD B2C sign-in and the portal states
+  access is for "an Enterprise employee or trusted Partner" who should "contact your
+  account manager ... to request access". No OpenAPI, no base URL and no endpoint is
+  published publicly; probes of /openapi.json, /swagger.json, /api-docs and
+  /.well-known/ return AEM soft-404 HTML or 404. The published API License Agreement
+  grants only a "limited, revocable, non-transferable, non-sublicensable,
+  non-exclusive" right, restricts use to the licensee's internal purpose, states the
+  licensee has no ownership rights in Renter Information, and on termination requires
+  the licensee to "delete or return any copies of the APIs and Enterprise Content" —
+  public docs shell, gated specs, no exit path.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/groq.png
+tags:
+  - Travel
+  - United States
+  - Car Rental
+  - Ground Transportation
+  - Mobility
+  - Corporate Travel
+  - Distribution
+  - Fleet Management
+  - Insurance Replacement Rental
+  - Booking
+created: '2026-07-28'
+modified: '2026-07-28'
+specificationVersion: '0.19'
+apis:
+  - aid: enterprise-mobility:ehi-rental-apis
+    name: EHI Rental APIs
+    description: >-
+      The Rental business line of the EHI API Marketplace, covering Enterprise
+      Rent-A-Car's network of neighborhood and airport branches. The public overview
+      page describes the capabilities as vehicle rental beyond traditional car rental
+      and directs prospective consumers to register as an Enterprise employee or
+      trusted Partner to shop the API catalog. No API names, base URL, endpoints,
+      authentication scheme or specification are published outside the Azure AD B2C
+      sign-in.
+    humanURL: https://developer.ehi.com/apis-overview/rental.html
+    tags:
+      - Car Rental
+      - Reservations
+      - Travel
+    properties:
+      - type: Documentation
+        url: https://developer.ehi.com/apis-overview/rental.html
+      - type: Portal
+        url: https://developer.ehi.com/
+      - type: Website
+        url: https://www.enterprise.com/en/home.html
+      - type: TermsOfService
+        url: https://developer.ehi.com/general/terms-of-use.html
+  - aid: enterprise-mobility:ehi-replacement-rental-apis
+    name: EHI Replacement Rental APIs
+    description: >-
+      The Replacement Rental business line of the EHI API Marketplace, exposing the
+      ARMS (Automated Rental Management System) and Entegral platforms to insurance
+      providers, collision repair shops, dealership partners and fleet maintenance
+      companies. The public overview page segments the capability set into three
+      groups — Communication ("electronically send and receive messages from the
+      rental branch"), Lifecycle ("manage the entire lifecycle of your rentals, from
+      authorization to payment") and Data ("view critical data about your
+      organization, including average length of rental, average cost of rental and
+      more") — and closes with "Note: Contact your account manager for more
+      information and to request access." No specification, base URL or endpoint is
+      published publicly.
+    humanURL: https://developer.ehi.com/apis-overview/replacement-rental.html
+    tags:
+      - Replacement Rental
+      - Insurance
+      - Collision Repair
+      - Claims
+    properties:
+      - type: Documentation
+        url: https://developer.ehi.com/apis-overview/replacement-rental.html
+      - type: Portal
+        url: https://developer.ehi.com/
+      - type: Website
+        url: https://www.entegral.com/
+      - type: TermsOfService
+        url: https://developer.ehi.com/general/terms-of-use.html
+  - aid: enterprise-mobility:ehi-commute-apis
+    name: EHI Commute APIs
+    description: >-
+      The Commute business line of the EHI API Marketplace, covering Commute with
+      Enterprise vanpooling and rideshare-to-work programs sold to employers. The
+      public overview page describes the capability as APIs that "manage the process
+      and create better experiences for your riders", grouped as finding co-workers
+      nearby, vehicle selection, and onboarding and maintenance support. No API
+      names, base URL, endpoints or specification are published outside the gated
+      catalog.
+    humanURL: https://developer.ehi.com/apis-overview/commute.html
+    tags:
+      - Vanpool
+      - Rideshare
+      - Commute
+      - Corporate Travel
+    properties:
+      - type: Documentation
+        url: https://developer.ehi.com/apis-overview/commute.html
+      - type: Portal
+        url: https://developer.ehi.com/
+      - type: TermsOfService
+        url: https://developer.ehi.com/general/terms-of-use.html
+common:
+  - type: Website
+    url: https://www.enterprisemobility.com/
+  - type: Portal
+    url: https://developer.ehi.com/
+  - type: Documentation
+    url: https://developer.ehi.com/dashboard/get-started.html
+  - type: TermsOfService
+    url: https://developer.ehi.com/general/terms-of-use.html
+  - type: PrivacyPolicy
+    url: https://developer.ehi.com/general/privacy-policy.html
+  - type: Contact
+    url: https://developer.ehi.com/general/contact-us.html
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/enterprise-mobility
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
