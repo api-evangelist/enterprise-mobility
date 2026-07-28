@@ -1,0 +1,153 @@
+generated: '2026-07-28'
+method: searched
+source: >-
+  Azure AD B2C OpenID Connect discovery documents (HTTP 200, anonymous), the
+  published sign-in/sign-up authorize links in the developer.ehi.com page source,
+  and the marketplace client library
+  /etc.clientlibs/ehimarketplace/clientlibs/clientlib-site.min.js — all probed
+  2026-07-28.
+docs: https://developer.ehi.com/
+note: >-
+  There is no OpenAPI to derive securitySchemes from — the EHI API Marketplace
+  catalog is gated. This profile is assembled entirely from surfaces Enterprise
+  publishes anonymously: the B2C OIDC discovery documents, the authorize URLs
+  embedded in every public marketplace page, and the marketplace's own front-end
+  JavaScript, which shows exactly how it calls api.ehi.com. It describes the
+  identity layer of the marketplace itself. The wire-level auth of the Rental,
+  Replacement Rental and Commute business-line APIs behind the catalog is NOT
+  published and is not asserted here.
+summary:
+  types:
+    - openIdConnect
+    - oauth2
+    - http
+  http_schemes:
+    - bearer
+  oauth2_flows:
+    - authorizationCode
+  api_key_in: []
+  mutual_tls: false
+schemes:
+  - name: AzureADB2C
+    type: openIdConnect
+    openIdConnectUrl: >-
+      https://apimarketplaceprod.b2clogin.com/apimarketplaceprod.onmicrosoft.com/B2C_1A_SIGNIN/v2.0/.well-known/openid-configuration
+    source: well-known/enterprise-mobility-openid-configuration.json
+    issuer: https://apimarketplaceprod.b2clogin.com/da7e3fca-e451-444b-9c27-65c9b61e22c2/v2.0/
+    tenant: apimarketplaceprod.onmicrosoft.com
+    id_token_signing_alg_values_supported:
+      - RS256
+    subject_types_supported:
+      - pairwise
+    claims_supported:
+      - given_name
+      - family_name
+      - email
+      - signInNames.emailAddress
+      - oid
+      - idp
+      - extension_organizations
+      - extension_approved
+      - tid
+      - iss
+      - iat
+      - exp
+      - aud
+      - acr
+      - nonce
+      - auth_time
+    note: >-
+      The custom claims are the partner gate made visible: extension_organizations
+      carries the organizations a developer is attached to and extension_approved
+      carries the approval flag. Registration is self-serve; API access is not.
+  - name: OAuth2AuthorizationCode
+    type: oauth2
+    flows:
+      - flow: authorizationCode
+        policy: B2C_1A_SIGNIN
+        authorizationUrl: >-
+          https://apimarketplaceprod.b2clogin.com/apimarketplaceprod.onmicrosoft.com/b2c_1a_signin/oauth2/v2.0/authorize
+        tokenUrl: >-
+          https://apimarketplaceprod.b2clogin.com/apimarketplaceprod.onmicrosoft.com/b2c_1a_signin/oauth2/v2.0/token
+        logoutUrl: >-
+          https://apimarketplaceprod.b2clogin.com/apimarketplaceprod.onmicrosoft.com/b2c_1a_signin/oauth2/v2.0/logout
+        jwksUri: >-
+          https://apimarketplaceprod.b2clogin.com/apimarketplaceprod.onmicrosoft.com/b2c_1a_signin/discovery/v2.0/keys
+        scopes_ref: scopes/enterprise-mobility-scopes.yml
+      - flow: authorizationCode
+        policy: B2C_1A_SIGNUP
+        authorizationUrl: >-
+          https://apimarketplaceprod.b2clogin.com/apimarketplaceprod.onmicrosoft.com/b2c_1a_signup/oauth2/v2.0/authorize
+        tokenUrl: >-
+          https://apimarketplaceprod.b2clogin.com/apimarketplaceprod.onmicrosoft.com/b2c_1a_signup/oauth2/v2.0/token
+        logoutUrl: >-
+          https://apimarketplaceprod.b2clogin.com/apimarketplaceprod.onmicrosoft.com/b2c_1a_signup/oauth2/v2.0/logout
+        jwksUri: >-
+          https://apimarketplaceprod.b2clogin.com/apimarketplaceprod.onmicrosoft.com/b2c_1a_signup/discovery/v2.0/keys
+        scopes:
+          - openid
+    response_types_supported:
+      - code
+      - code id_token
+      - code token
+      - code id_token token
+      - id_token
+      - id_token token
+      - token
+      - token id_token
+    response_modes_supported:
+      - query
+      - fragment
+      - form_post
+    token_endpoint_auth_methods_supported:
+      - client_secret_post
+      - client_secret_basic
+    client_id: a76ec3a2-3999-4162-8819-6967df6f7562
+    redirect_uri: https://developer.ehi.com/bin/ehi/auth/code/verifier
+    note: >-
+      client_id and redirect_uri are published verbatim in the anonymous page
+      source of every developer.ehi.com marketplace page. This is a public
+      client identifier, not a secret.
+  - name: BearerToken
+    type: http
+    scheme: bearer
+    bearerFormat: JWT
+    source: >-
+      /etc.clientlibs/ehimarketplace/clientlibs/clientlib-site.min.js — every
+      api.ehi.com call sends Authorization: Bearer <access_token>.
+    applies_to: https://api.ehi.com/marketplace/experience/*
+additional_headers:
+  - name: Authorization
+    value: Bearer <access_token>
+    required: true
+    note: B2C-issued access token.
+  - name: ehi-origin-identity
+    value: <id_token>
+    required: true
+    note: >-
+      The B2C id_token is sent as a second, EHI-specific identity header
+      alongside the bearer access token.
+  - name: Ehi-Calling-Application
+    value: API Marketplace
+    required: true
+    note: Caller-identification header; the marketplace front end sends its own name.
+  - name: ehi-application-name
+    value: ehi
+    required: false
+    note: Sent on the retrieve-user-content call.
+access_gate:
+  self_serve_registration: true
+  self_serve_api_access: false
+  requirement: >-
+    "If you are an Enterprise employee or trusted Partner register and get
+    access today" — developer.ehi.com. Replacement Rental adds "Contact your
+    account manager for more information and to request access."
+  authorization_step: >-
+    A registered developer creates a Client Application and calls
+    client-application.request-authorization; approval is granted by Enterprise,
+    and surfaces in the token as the extension_approved claim.
+not_published:
+  - Wire-level authentication for the Rental, Replacement Rental and Commute APIs
+  - mTLS / client-certificate requirements, if any
+  - Token lifetimes and refresh semantics
+  - Any API-key scheme

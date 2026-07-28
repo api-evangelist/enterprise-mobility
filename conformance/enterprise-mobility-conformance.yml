@@ -1,0 +1,96 @@
+generated: '2026-07-28'
+method: searched
+source: >-
+  Azure AD B2C OIDC discovery documents in well-known/, the published authorize
+  links on developer.ehi.com, live probes of api.ehi.com, the API License
+  Agreement at https://developer.ehi.com/general/terms-of-use.html, and the CIECA
+  member spotlight on Enterprise Holdings. Probed 2026-07-28.
+note: >-
+  Enterprise Mobility makes no public conformance or certification claim of any
+  kind on developer.ehi.com or enterprisemobility.com. Every "conforms: true"
+  below is backed by an artifact we could read anonymously; everything else is
+  recorded false or unverified rather than assumed. There is no published trust
+  center, no SOC 2 / ISO 27001 / PCI DSS statement, and therefore no Compliance
+  pointer is emitted for this provider.
+standards:
+  - id: oauth2
+    conforms: true
+    evidence: >-
+      Azure AD B2C authorization-code flow with published authorize/token/logout
+      endpoints, client_secret_post and client_secret_basic token auth methods.
+    source: well-known/enterprise-mobility-openid-configuration.json
+  - id: oidc-core
+    conforms: true
+    evidence: >-
+      Two anonymously readable OpenID Connect discovery documents (RFC 8414-style
+      /.well-known/openid-configuration), RS256 id_token signing, pairwise
+      subject identifiers, jwks_uri published.
+    source: well-known/enterprise-mobility-openid-configuration.json
+  - id: oidc-discovery
+    conforms: true
+    evidence: /.well-known/openid-configuration served 200 for both B2C policies.
+  - id: pkce
+    conforms: unverified
+    evidence: >-
+      The published authorize link uses response_type=code with a server-side
+      redirect to /bin/ehi/auth/code/verifier, but code_challenge_method_supported
+      is not advertised in the B2C discovery document.
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: >-
+      The error envelope is a vendor shape — {"errors":[{"code","localizedMessage"}]}
+      — served as application/json, not application/problem+json.
+    source: errors/enterprise-mobility-problem-types.yml
+  - id: rfc9116-security-txt
+    conforms: false
+    evidence: /.well-known/security.txt returns 404 on every Enterprise host probed.
+    source: well-known/enterprise-mobility-well-known.yml
+  - id: rfc8594-sunset-header
+    conforms: false
+    evidence: No Sunset or Deprecation header support is published or observable.
+  - id: openapi
+    conforms: false
+    evidence: >-
+      No OpenAPI or Swagger document is published on any host. The API Specs
+      section of the marketplace is behind Azure AD B2C.
+  - id: asyncapi
+    conforms: false
+    evidence: No event, streaming or webhook surface is published.
+  - id: graphql
+    conforms: false
+    evidence: >-
+      /graphql returns the Kong no-route 404 on api.ehi.com and a soft-404 on
+      developer.ehi.com; no AEM headless GraphQL endpoint is exposed.
+  - id: mcp
+    conforms: false
+    evidence: No Model Context Protocol server is published.
+  - id: llms-txt
+    conforms: false
+    evidence: /llms.txt 302s to the AEM 404 template on developer.ehi.com.
+  - id: cieca-bms
+    conforms: unverified
+    applies_to: Replacement Rental / ARMS / Entegral claims messaging
+    claimed_by_provider: false
+    evidence: >-
+      CIECA's member spotlight states Enterprise "uses the BMS standards developed
+      by the organization to make integrations with our trading partners, sponsors
+      and customers easier and more efficient" and that Enterprise has "multiple
+      company representatives who sit on CIECA committees" working on "next
+      generation OpenAPI Standards and enhanced messaging content". This is
+      CIECA's assertion about Enterprise, not a conformance claim published by
+      Enterprise.
+    source: https://www.cieca.com/blogs/post/member-spotlight-enterprise-holdings
+  - id: opentravel-ota
+    conforms: unverified
+    applies_to: Car rental distribution through GDS and OTA intermediaries
+    claimed_by_provider: false
+    evidence: >-
+      OpenTravel vehicle messages (OTA_VehAvailRateRQ and family) are the industry
+      norm for car rental distribution, but no Enterprise page, portal page or
+      license document reviewed on 2026-07-28 references OpenTravel or any
+      conformance level. Recorded as industry context only.
+  - id: iata-ndc
+    conforms: not-applicable
+    evidence: NDC is an airline distribution standard; Enterprise is a ground-transportation supplier.
+certifications_published: []
+compliance_program_published: false

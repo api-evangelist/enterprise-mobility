@@ -1,0 +1,49 @@
+{
+  "issuer": "https://apimarketplaceprod.b2clogin.com/da7e3fca-e451-444b-9c27-65c9b61e22c2/v2.0/",
+  "authorization_endpoint": "https://apimarketplaceprod.b2clogin.com/apimarketplaceprod.onmicrosoft.com/b2c_1a_signup/oauth2/v2.0/authorize",
+  "token_endpoint": "https://apimarketplaceprod.b2clogin.com/apimarketplaceprod.onmicrosoft.com/b2c_1a_signup/oauth2/v2.0/token",
+  "end_session_endpoint": "https://apimarketplaceprod.b2clogin.com/apimarketplaceprod.onmicrosoft.com/b2c_1a_signup/oauth2/v2.0/logout",
+  "jwks_uri": "https://apimarketplaceprod.b2clogin.com/apimarketplaceprod.onmicrosoft.com/b2c_1a_signup/discovery/v2.0/keys",
+  "response_modes_supported": [
+    "query",
+    "fragment",
+    "form_post"
+  ],
+  "response_types_supported": [
+    "code",
+    "code id_token",
+    "code token",
+    "code id_token token",
+    "id_token",
+    "id_token token",
+    "token",
+    "token id_token"
+  ],
+  "scopes_supported": [
+    "openid"
+  ],
+  "subject_types_supported": [
+    "pairwise"
+  ],
+  "id_token_signing_alg_values_supported": [
+    "RS256"
+  ],
+  "token_endpoint_auth_methods_supported": [
+    "client_secret_post",
+    "client_secret_basic"
+  ],
+  "claims_supported": [
+    "oid",
+    "idp",
+    "extension_organizations",
+    "extension_approved",
+    "tid",
+    "iss",
+    "iat",
+    "exp",
+    "aud",
+    "acr",
+    "nonce",
+    "auth_time"
+  ]
+}

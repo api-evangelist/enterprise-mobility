@@ -19,15 +19,22 @@ description: >-
   lines — Rental, Replacement Rental and Commute — but the API catalog, API specs,
   guides and release notes all sit behind Azure AD B2C sign-in and the portal states
   access is for "an Enterprise employee or trusted Partner" who should "contact your
-  account manager ... to request access". No OpenAPI, no base URL and no endpoint is
-  published publicly; probes of /openapi.json, /swagger.json, /api-docs and
-  /.well-known/ return AEM soft-404 HTML or 404. The published API License Agreement
+  account manager ... to request access". No OpenAPI is published for those business
+  lines; probes of /openapi.json, /swagger.json, /api-docs and /.well-known/ return
+  AEM soft-404 HTML or 404. What is public is the plumbing around the gate: the
+  production API gateway at api.ehi.com is a live Kong Gateway behind Imperva, the
+  marketplace's own experience API publishes three POST endpoints in the portal's
+  anonymous page source, the Azure AD B2C tenant serves two readable OpenID Connect
+  discovery documents, and the sign-in link enumerates fourteen OAuth scopes covering
+  catalog search, client-application registration and authorization requests. The
+  published API License Agreement
   grants only a "limited, revocable, non-transferable, non-sublicensable,
   non-exclusive" right, restricts use to the licensee's internal purpose, states the
   licensee has no ownership rights in Renter Information, and on termination requires
   the licensee to "delete or return any copies of the APIs and Enterprise Content" —
   public docs shell, gated specs, no exit path.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/groq.png
+image: >-
+  https://www.enterprisemobility.com/content/dam/enterpriseholdings/functional/logos/png/em-og-image-default.png
 tags:
   - Travel
   - United States
@@ -119,19 +126,84 @@ apis:
         url: https://developer.ehi.com/
       - type: TermsOfService
         url: https://developer.ehi.com/general/terms-of-use.html
+  - aid: enterprise-mobility:ehi-marketplace-experience-api
+    name: EHI API Marketplace Experience API
+    description: >-
+      The backend-for-frontend that powers the EHI API Marketplace itself, and the
+      only Enterprise Mobility API surface with endpoints published anonymously.
+      Three POST operations are declared verbatim in the api-endpoint-details element
+      of every public developer.ehi.com page —
+      /marketplace/experience/profile/{profileId}/retrieve-user-content,
+      /favorite-content and /unfavorite-content — and the marketplace client library
+      shows exactly how they are called: JSON bodies of {contentType, contentId}, an
+      Authorization Bearer access token from Azure AD B2C, the B2C id_token repeated
+      in an ehi-origin-identity header, and Ehi-Calling-Application / ehi-application-name
+      caller headers. Errors come back as {"errors":[{"code","localizedMessage"}]}.
+      The host, https://api.ehi.com, is a live Kong Gateway behind Imperva that
+      returns a JSON no-route 404 with a request_id to anonymous callers. Enterprise
+      publishes no OpenAPI for this API; the operations above are recorded from the
+      provider's own published page source and client library, and nothing beyond
+      them is asserted.
+    humanURL: https://developer.ehi.com/
+    baseURL: https://api.ehi.com
+    tags:
+      - Developer Portal
+      - API Marketplace
+      - Identity
+    properties:
+      - type: Portal
+        url: https://developer.ehi.com/
+      - type: Authentication
+        url: authentication/enterprise-mobility-authentication.yml
+      - type: OAuthScopes
+        url: scopes/enterprise-mobility-scopes.yml
+      - type: Conventions
+        url: conventions/enterprise-mobility-conventions.yml
+      - type: ErrorCatalog
+        url: errors/enterprise-mobility-problem-types.yml
+      - type: TermsOfService
+        url: https://developer.ehi.com/general/terms-of-use.html
 common:
+  - type: DomainSecurity
+    url: security/enterprise-mobility-domain-security.yml
   - type: Website
     url: https://www.enterprisemobility.com/
   - type: Portal
     url: https://developer.ehi.com/
+  - type: DeveloperPortal
+    url: https://developer.ehi.com/
   - type: Documentation
-    url: https://developer.ehi.com/dashboard/get-started.html
+    url: https://developer.ehi.com/apis-overview.html
+  - type: Authentication
+    url: authentication/enterprise-mobility-authentication.yml
+  - type: OAuthScopes
+    url: scopes/enterprise-mobility-scopes.yml
+  - type: WellKnown
+    url: well-known/enterprise-mobility-well-known.yml
+  - type: OpenIDConnect
+    url: well-known/enterprise-mobility-openid-configuration.json
+  - type: Conventions
+    url: conventions/enterprise-mobility-conventions.yml
+  - type: ErrorCatalog
+    url: errors/enterprise-mobility-problem-types.yml
+  - type: Conformance
+    url: conformance/enterprise-mobility-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/enterprise-mobility-lifecycle.yml
+  - type: VulnerabilityDisclosure
+    url: security/enterprise-mobility-vulnerability-disclosure.yml
+  - type: LLMsTxt
+    url: llms/enterprise-mobility-llms.txt
   - type: TermsOfService
     url: https://developer.ehi.com/general/terms-of-use.html
   - type: PrivacyPolicy
     url: https://developer.ehi.com/general/privacy-policy.html
   - type: Contact
     url: https://developer.ehi.com/general/contact-us.html
+  - type: Support
+    url: https://developer.ehi.com/general/contact-us.html
+  - type: Blog
+    url: https://www.enterprisemobility.com/en/news-stories.html
   - type: LinkedIn
     url: https://www.linkedin.com/company/enterprise-mobility
 maintainers:

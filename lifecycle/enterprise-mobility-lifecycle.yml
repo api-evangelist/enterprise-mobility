@@ -1,0 +1,88 @@
+generated: '2026-07-28'
+method: searched
+source: >-
+  https://developer.ehi.com/general/terms-of-use.html (API License Agreement
+  v1.0, effective 18 October 2022), plus DNS/HTTP probes for status, trust and
+  release-note surfaces across ehi.com and enterprisemobility.com. Probed
+  2026-07-28.
+note: >-
+  This is the most consequential artifact for anyone integrating with Enterprise,
+  because the published license does the opposite of what a lifecycle policy
+  normally does: it expressly disclaims availability, reserves the right to
+  change or remove functionality without compensation, and puts the cost of
+  breakage on the licensee. Release Notes exist in the marketplace but sit behind
+  Azure AD B2C, so no dated change history is publicly readable.
+versioning:
+  scheme: none-published
+  current: null
+  docs: null
+  note: >-
+    No version segment, header or negotiation policy appears in any published
+    Enterprise API path or document.
+deprecation:
+  policy_url: null
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  note: >-
+    No deprecation policy, no notice period and no RFC 8594 Sunset/Deprecation
+    header support is published. The license explicitly shifts breaking-change
+    risk to the licensee.
+  license_language: >-
+    "If any changes to the APIs causes any disruption in the Application,
+    Licensee shall modify the Application to ensure continued service for end
+    users. Enterprise may add or remove functions or features and makes no
+    representation or warranty that the Application will continue to work with
+    any changes to or future APIs. Enterprise shall have no liability for any
+    costs or damages caused by any changes to the APIs."
+sla:
+  url: null
+  published: false
+  uptime_target: null
+  license_language: >-
+    "Enterprise shall use commercially reasonable efforts to make the APIs
+    available to Licensee. Notwithstanding the foregoing, Enterprise does not
+    guarantee any minimum uptime, availability, accuracy or performance of the
+    APIs."
+status_page: null
+status_page_published: false
+status_page_probes:
+  - {host: status.ehi.com, dns: NXDOMAIN}
+  - {host: status.enterprisemobility.com, dns: NXDOMAIN}
+  - {host: trust.ehi.com, dns: NXDOMAIN}
+  - {host: trust.enterprisemobility.com, dns: NXDOMAIN}
+change_log:
+  url: https://developer.ehi.com/dashboard/release-notes.html
+  public: false
+  note: >-
+    The marketplace advertises Release Notes as a dashboard section, but the
+    route 302s to Azure AD B2C (policy B2C_1A_SIGNIN). No dated entry is readable
+    without a partner account, so no changelog/ artifact is emitted — there is
+    nothing public to structure.
+termination:
+  licensee_notice: 30 days written notice
+  enterprise_notice: >-
+    "Enterprise may for any reason or no reason, without limitation to any other
+    rights and without notice, terminate this Agreement or suspend access to the
+    APIs at any time and without liability to Licensee."
+  on_termination: >-
+    "Upon termination of this Agreement, Licensee shall immediately cease all use
+    of the APIs and delete or return any copies of the APIs and Enterprise
+    Content."
+  asymmetry: >-
+    The licensee owes 30 days notice to leave; Enterprise owes none to cut access.
+quota_policy:
+  numbers_published: false
+  license_language: >-
+    "Enterprise may set limits on use of the APIs or number of calls to the APIs
+    that each Application may make. Enterprise reserves the right to modify or
+    add to these limitations or conditions on such access upon written notice to
+    Licensee at any time for any reason"
+deprecated_operations: []
+not_published:
+  - Versioning policy
+  - Deprecation policy or notice period
+  - Sunset / Deprecation header support
+  - Service level or uptime commitment (expressly disclaimed)
+  - Public status page
+  - Public, dated release notes

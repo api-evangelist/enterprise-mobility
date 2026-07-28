@@ -1,0 +1,59 @@
+generated: '2026-07-28'
+method: probed
+source: >-
+  live DNS/TLS/HTTP probes of apis.yml hosts (0-working/probe-domain-security.py),
+  with the HSTS values re-verified by hand on 2026-07-28 — the script reported
+  null for all three hosts but every one of them does send
+  Strict-Transport-Security on both HEAD and GET.
+hosts:
+  - host: www.enterprisemobility.com
+    https: true
+    tls_version: TLSv1.3
+    cert_expires: Nov  7 23:59:59 2026 GMT
+    hsts: true
+    hsts_max_age: 15768000
+    hsts_include_subdomains: true
+  - host: developer.ehi.com
+    https: true
+    tls_version: TLSv1.3
+    cert_expires: Dec 19 23:59:59 2026 GMT
+    hsts: true
+    hsts_max_age: 15768000
+    hsts_include_subdomains: true
+    edge: Akamai
+    note: >-
+      403s to browser-like user agents behind Akamai; serves 200 to a default
+      curl user agent.
+  - host: api.ehi.com
+    https: true
+    tls_version: TLSv1.3
+    cert_expires: Sep  8 23:59:59 2026 GMT
+    hsts: true
+    hsts_max_age: 31536000
+    hsts_include_subdomains: false
+    edge: Imperva
+    gateway: Kong Gateway
+    note: >-
+      Production API gateway. Returns a JSON no-route 404 with a request_id to
+      every anonymous path.
+domains:
+  - domain: enterprisemobility.com
+    dnssec: false
+    caa: []
+    spf: true
+    dmarc: true
+    dmarc_policy: reject
+  - domain: ehi.com
+    dnssec: false
+    caa: []
+    spf: true
+    dmarc: true
+    dmarc_policy: reject
+summary:
+  https_everywhere: true
+  tls13_everywhere: true
+  hsts_everywhere: true
+  dnssec: false
+  caa: false
+  spf: true
+  dmarc_reject: true

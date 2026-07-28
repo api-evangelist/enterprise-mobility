@@ -1,0 +1,116 @@
+generated: '2026-07-28'
+method: searched
+source: >-
+  The B2C_1A_SIGNIN authorize URL published verbatim in the anonymous page source
+  of https://developer.ehi.com/ and every /apis-overview/ page (scope= query
+  parameter), plus the OIDC discovery documents in well-known/. Probed
+  2026-07-28.
+docs: https://developer.ehi.com/
+resource: https://apimarketplaceprod.onmicrosoft.com/api
+note: >-
+  Enterprise Mobility publishes no scopes reference page. This list is the
+  literal scope set the EHI API Marketplace requests when a developer signs in —
+  extracted from the provider's own published authorize link, not inferred. It
+  scopes the MARKETPLACE's own management surface (browse the catalog, manage
+  client applications, request authorization, manage favorites), not the Rental /
+  Replacement Rental / Commute business APIs, whose scopes are behind the gate
+  and are NOT asserted here. Note the OIDC discovery document advertises only
+  "openid" in scopes_supported — Azure AD B2C does not enumerate resource scopes
+  in discovery, so the authorize link is the authoritative published source.
+schemes:
+  - name: OAuth2AuthorizationCode
+    source: authentication/enterprise-mobility-authentication.yml
+    flows:
+      - flow: authorizationCode
+        policy: B2C_1A_SIGNIN
+        authorizationUrl: >-
+          https://apimarketplaceprod.b2clogin.com/apimarketplaceprod.onmicrosoft.com/b2c_1a_signin/oauth2/v2.0/authorize
+        tokenUrl: >-
+          https://apimarketplaceprod.b2clogin.com/apimarketplaceprod.onmicrosoft.com/b2c_1a_signin/oauth2/v2.0/token
+scopes:
+  - scope: openid
+    description: Standard OpenID Connect scope; issues an id_token.
+    flows: [authorizationCode]
+    group: identity
+  - scope: offline_access
+    description: Requests a refresh token so the marketplace session can be renewed.
+    flows: [authorizationCode]
+    group: identity
+  - scope: https://apimarketplaceprod.onmicrosoft.com/api/api.list
+    short: api.list
+    description: List the APIs in the EHI API Marketplace catalog.
+    flows: [authorizationCode]
+    group: catalog
+  - scope: https://apimarketplaceprod.onmicrosoft.com/api/api.search
+    short: api.search
+    description: Search the EHI API Marketplace catalog.
+    flows: [authorizationCode]
+    group: catalog
+  - scope: https://apimarketplaceprod.onmicrosoft.com/api/client-application.create
+    short: client-application.create
+    description: Create a client application registration in the marketplace.
+    flows: [authorizationCode]
+    group: client-applications
+  - scope: https://apimarketplaceprod.onmicrosoft.com/api/client-application.read
+    short: client-application.read
+    description: Read a client application registration.
+    flows: [authorizationCode]
+    group: client-applications
+  - scope: https://apimarketplaceprod.onmicrosoft.com/api/client-application.list
+    short: client-application.list
+    description: List the caller's client application registrations.
+    flows: [authorizationCode]
+    group: client-applications
+  - scope: https://apimarketplaceprod.onmicrosoft.com/api/client-application.search
+    short: client-application.search
+    description: Search client application registrations.
+    flows: [authorizationCode]
+    group: client-applications
+  - scope: https://apimarketplaceprod.onmicrosoft.com/api/client-application.manage-owners
+    short: client-application.manage-owners
+    description: Add or remove owners on a client application registration.
+    flows: [authorizationCode]
+    group: client-applications
+  - scope: https://apimarketplaceprod.onmicrosoft.com/api/client-application.request-authorization
+    short: client-application.request-authorization
+    description: >-
+      Request authorization for a client application to consume a specific API.
+      This is the actual access gate — it is a request to Enterprise, not a
+      self-serve grant.
+    flows: [authorizationCode]
+    group: client-applications
+    gate: true
+  - scope: https://apimarketplaceprod.onmicrosoft.com/api/member.list
+    short: member.list
+    description: List the members of the caller's organization in the marketplace.
+    flows: [authorizationCode]
+    group: organization
+  - scope: https://apimarketplaceprod.onmicrosoft.com/api/favorite.create
+    short: favorite.create
+    description: Favorite an API or guide in the marketplace.
+    flows: [authorizationCode]
+    group: personalization
+  - scope: https://apimarketplaceprod.onmicrosoft.com/api/favorite.list
+    short: favorite.list
+    description: List the caller's favorited APIs and guides.
+    flows: [authorizationCode]
+    group: personalization
+  - scope: https://apimarketplaceprod.onmicrosoft.com/api/favorite.delete
+    short: favorite.delete
+    description: Remove a favorite.
+    flows: [authorizationCode]
+    group: personalization
+summary:
+  total: 14
+  identity: 2
+  resource_scopes: 12
+  groups:
+    - identity
+    - catalog
+    - client-applications
+    - organization
+    - personalization
+not_published:
+  - Scopes for the Rental, Replacement Rental and Commute business-line APIs
+  - Any scope-to-permission or scope-to-role mapping document
+  - Consent screen copy or admin-consent requirements

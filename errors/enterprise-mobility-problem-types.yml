@@ -1,0 +1,55 @@
+generated: '2026-07-28'
+method: searched
+source: >-
+  Live probes of https://api.ehi.com (Kong gateway error bodies) and the error
+  handlers in the EHI API Marketplace client library
+  /etc.clientlibs/ehimarketplace/clientlibs/clientlib-site.min.js. Probed
+  2026-07-28.
+format: vendor
+rfc9457: false
+note: >-
+  Enterprise Mobility publishes no error reference. There is no OpenAPI to derive
+  4xx/5xx responses from — the catalog is behind Azure AD B2C. What is captured
+  here is the error CONTRACT that is observable anonymously: the vendor error
+  envelope the marketplace's own client parses, and the gateway's error bodies.
+  No error CODES are published, so none are invented — the code registry is
+  empty by fact, not by omission.
+envelope:
+  shape: '{ "errors": [ { "code": "<string>", "localizedMessage": "<string>" } ] }'
+  container: errors
+  cardinality: array
+  fields:
+    - name: code
+      type: string
+      description: >-
+        Vendor error code. The marketplace front end renders it as
+        "BFF Error : <code>". No registry of these codes is published.
+    - name: localizedMessage
+      type: string
+      description: Server-localized, human-readable message.
+  content_type: application/json
+  evidence: >-
+    e.responseJSON.errors[0].localizedMessage / e.responseJSON.errors[0].code in
+    clientlib-site.min.js error handlers for favorite-content,
+    unfavorite-content and retrieve-user-content.
+gateway_errors:
+  - status: 404
+    host: api.ehi.com
+    body: '{ "message": "no Route matched with those values", "request_id": "<uuid-ish>" }'
+    content_type: application/json
+    note: >-
+      Kong Gateway's own unmatched-route response. Returned for every anonymous
+      path probed on api.ehi.com, including /openapi.json, /.well-known/* and the
+      published /marketplace/experience/* paths. It carries a request_id, which is
+      the only correlation identifier Enterprise exposes publicly.
+    fields:
+      - message
+      - request_id
+problems: []
+problem_codes_published: false
+not_published:
+  - Any error-code registry or reference page
+  - HTTP status-code table per operation
+  - Retry / backoff guidance
+  - Rate-limit (429) semantics
+  - RFC 9457 application/problem+json support (the envelope is a vendor shape)

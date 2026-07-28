@@ -1,0 +1,119 @@
+generated: '2026-07-28'
+method: searched
+source: >-
+  Anonymous evidence only — the api-endpoint-details element published in the
+  page source of https://developer.ehi.com/, the marketplace client library
+  /etc.clientlibs/ehimarketplace/clientlibs/clientlib-site.min.js, and live
+  header/response probes of https://api.ehi.com. Probed 2026-07-28.
+note: >-
+  Enterprise Mobility publishes no API design guide, style guide or conventions
+  document. Everything below was observed on the only Enterprise API surface that
+  is visible without a partner account: the EHI API Marketplace's own experience
+  (BFF) API, whose endpoints, HTTP methods, headers, request bodies and error
+  envelope are published in the marketplace's anonymous page source and front-end
+  JavaScript. Treat it as a faithful sample of house style, not as a published
+  contract, and NOT as the contract of the Rental / Replacement Rental / Commute
+  business-line APIs behind the gate.
+gateway:
+  host: https://api.ehi.com
+  product: Kong Gateway
+  evidence: >-
+    x-kong-response-latency response header and the canonical Kong body
+    {"message":"no Route matched with those values","request_id":"..."} on every
+    unmatched path.
+  edge: 'Imperva (x-cdn: Imperva, x-iinfo, incap_ses cookies)'
+  hsts: max-age=31536000
+  status: reachable; no route is matched anonymously
+authentication:
+  style: >-
+    OAuth 2.0 bearer (Azure AD B2C authorization code) plus EHI identity headers
+  header: 'Authorization: Bearer <access_token>'
+  companion_headers:
+    - ehi-origin-identity   # the B2C id_token
+    - Ehi-Calling-Application
+    - ehi-application-name
+  ref: authentication/enterprise-mobility-authentication.yml
+request:
+  http_methods_observed:
+    - POST
+  note: >-
+    Every observed marketplace-experience call is a POST, including the read
+    (retrieve-user-content) — reads are modelled as POST rather than GET. This is
+    an RPC-over-POST style, not resource-oriented REST.
+  content_type: application/json
+  accept: application/json
+  path_style: >-
+    /marketplace/experience/profile/{profileId}/{action} — a hyphenated verb in
+    the final path segment (favorite-content, unfavorite-content,
+    retrieve-user-content).
+  body_shape:
+    favorite-content: '{ "contentType": "API|GUIDE", "contentId": "<id>" }'
+    unfavorite-content: '{ "contentType": "API|GUIDE", "contentId": "<id>" }'
+    retrieve-user-content: no body
+response:
+  content_type: application/json
+  shape_observed:
+    retrieve-user-content: >-
+      { "favorites": [ { "contentId": "...", "contentType": "API|GUIDE",
+      "createdDateTime": "<ISO 8601>" } ] }
+  timestamps: ISO 8601 (createdDateTime)
+error_envelope:
+  format: vendor
+  rfc9457: false
+  shape: '{ "errors": [ { "code": "<string>", "localizedMessage": "<string>" } ] }'
+  fields:
+    - code
+    - localizedMessage
+  note: >-
+    The marketplace front end logs these as "BFF Error : <code>". Errors are an
+    array, so multiple errors can be returned per response. Messages are
+    localized by the server (localizedMessage), which implies an Accept-Language
+    or locale-aware backend, though no locale header is documented.
+  ref: errors/enterprise-mobility-problem-types.yml
+tracing:
+  request_id: >-
+    The gateway returns a request_id in its own 4xx JSON bodies (e.g.
+    {"message":"no Route matched with those values","request_id":"8c9ce67f..."}).
+    No request-id REQUEST header is documented.
+  correlation_headers_documented: []
+idempotency:
+  supported: false
+  documented: false
+  note: >-
+    No Idempotency-Key header, no idempotent-retry contract and no de-duplication
+    semantics are published anywhere on developer.ehi.com or observable in the
+    marketplace client. favorite-content / unfavorite-content are naturally
+    idempotent by outcome (set/unset a flag) but that is a side effect, not a
+    contract. Do not assume safe retries.
+pagination:
+  documented: false
+  note: retrieve-user-content returns an unpaged favorites array; no page/cursor params observed.
+field_expansion:
+  documented: false
+sparse_fieldsets:
+  documented: false
+metadata:
+  documented: false
+versioning:
+  scheme: none-visible
+  note: >-
+    No version segment, version header or version query parameter appears in any
+    published Enterprise API path. The B2C identity layer is versioned (v2.0),
+    the EHI API surface is not — publicly, at least.
+  ref: lifecycle/enterprise-mobility-lifecycle.yml
+rate_limiting:
+  documented: false
+  headers_observed: []
+  note: >-
+    No RateLimit / X-RateLimit headers were returned on any anonymous probe.
+    Section 8 of the API License Agreement reserves Enterprise's right to set
+    limits ("Enterprise may set limits on use of the APIs or number of calls to
+    the APIs that each Application may make") but publishes no numbers.
+  ref: https://developer.ehi.com/general/terms-of-use.html
+not_published:
+  - API design guide or style guide
+  - Idempotency contract
+  - Pagination contract
+  - Rate-limit numbers or headers
+  - Versioning or API-version negotiation policy
+  - Request-id / correlation header for clients to send

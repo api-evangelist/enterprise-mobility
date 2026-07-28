@@ -469,3 +469,102 @@ actions:
     documents. None carries a baseURL because none is published. If a partner account
     is ever obtained, the gated API Catalog is the place to replace these with real
     named APIs and specs.
+contractDiscovery:
+  round: 2
+  date: '2026-07-28'
+  conclusion: >-
+    Still no OpenAPI, Swagger, GraphQL SDL, AsyncAPI, Protobuf or MCP server for
+    the Rental, Replacement Rental or Commute business lines — those remain behind
+    Azure AD B2C. But the round-1 conclusion that "no base URL and no endpoint is
+    published publicly" was too strong. A harder pass against the API host root,
+    the identity host and the portal's own page source turned up four real
+    machine-readable surfaces.
+  finds:
+    - kind: api-host
+      value: https://api.ehi.com
+      evidence: >-
+        Resolves (Imperva, 45.60.31.129) and answers every request with a JSON
+        body {"message":"no Route matched with those values","request_id":"..."}
+        plus an x-kong-response-latency header — a live Kong Gateway. HSTS
+        max-age=31536000, TLSv1.3. Round 1 probed api.enterprisemobility.com
+        (NXDOMAIN) but not api.ehi.com.
+      status: 404
+    - kind: published-endpoints
+      value: >-
+        POST /marketplace/experience/profile/{profileId}/retrieve-user-content,
+        /favorite-content, /unfavorite-content on api.ehi.com
+      evidence: >-
+        Declared verbatim in <div hidden class="api-endpoint-details"
+        data-attr-retrieveapi-url=... data-attr-favoriteapi-url=...
+        data-attr-unfavorite-url=...> in the anonymous page source of
+        https://developer.ehi.com/ and every /apis-overview/ page. The call
+        semantics (POST, application/json, Authorization Bearer, ehi-origin-identity
+        id_token, Ehi-Calling-Application, request body {contentType, contentId},
+        response {favorites:[{contentId, contentType, createdDateTime}]}) come from
+        /etc.clientlibs/ehimarketplace/clientlibs/clientlib-site.min.js.
+      note: >-
+        These are the marketplace's own backend-for-frontend, not the gated
+        business-line APIs. Anonymous calls to them return the Kong no-route 404.
+    - kind: oidc-discovery
+      value: >-
+        https://apimarketplaceprod.b2clogin.com/apimarketplaceprod.onmicrosoft.com/{B2C_1A_SIGNIN,B2C_1A_SIGNUP}/v2.0/.well-known/openid-configuration
+      status: 200
+      evidence: >-
+        Two anonymously readable OpenID Connect discovery documents — issuer
+        da7e3fca-e451-444b-9c27-65c9b61e22c2, RS256, pairwise subjects, jwks_uri,
+        and the custom claims extension_organizations and extension_approved that
+        encode the partner gate. Saved verbatim to well-known/.
+    - kind: oauth-scopes
+      value: 14 scopes (12 resource + openid + offline_access)
+      evidence: >-
+        The B2C_1A_SIGNIN authorize link published in the portal's page source
+        requests api.list, api.search, client-application.create/read/list/search/
+        manage-owners/request-authorization, member.list and
+        favorite.create/list/delete under the resource
+        https://apimarketplaceprod.onmicrosoft.com/api. The discovery document
+        advertises only "openid", so the authorize link is the authoritative
+        published source.
+    - kind: error-envelope
+      value: '{"errors":[{"code":"...","localizedMessage":"..."}]}'
+      evidence: >-
+        Error handlers in clientlib-site.min.js read
+        responseJSON.errors[0].code and responseJSON.errors[0].localizedMessage
+        and log them as "BFF Error". Vendor envelope, not RFC 9457.
+  stillAbsent:
+    - OpenAPI / Swagger / GraphQL / AsyncAPI / Protobuf / MCP
+    - llms.txt (302s to the AEM 404 template on developer.ehi.com)
+    - security.txt on every host
+    - SDKs on npm, PyPI, Maven Central, NuGet, pkg.go.dev, RubyGems, Packagist, crates.io
+    - Public GitHub organization (entegral, enterprise-holdings, ehi-tech all 404)
+    - Postman collection or workspace
+    - Public status page (status./trust. subdomains NXDOMAIN on both domains)
+    - Public, dated release notes (dashboard route 302s to B2C)
+    - Sandbox, test credentials or trial access
+    - CLI, embedded components, decline codes
+  additionalProbes:
+    - {url: 'https://api.ehi.com/', status: 404, note: Kong Gateway no-route JSON.}
+    - {url: 'https://api.ehi.com/openapi.json', status: 404}
+    - {url: 'https://api.ehi.com/swagger.json', status: 404}
+    - {url: 'https://api.ehi.com/api-docs', status: 404}
+    - {url: 'https://api.ehi.com/graphql', status: 404}
+    - {url: 'https://api.ehi.com/.well-known/openid-configuration', status: 404}
+    - {url: 'https://api.ehi.com/.well-known/oauth-authorization-server', status: 404}
+    - {url: 'https://api.ehi.com/.well-known/api-catalog', status: 404}
+    - {url: 'https://api.ehi.com/.well-known/ai-plugin.json', status: 404}
+    - {url: 'https://api.ehi.com/marketplace/experience/profile/test/retrieve-user-content', status: 404, note: 'Published endpoint; anonymous callers get the Kong no-route 404.'}
+    - {url: 'https://apimarketplaceprod.b2clogin.com/apimarketplaceprod.onmicrosoft.com/B2C_1A_SIGNIN/v2.0/.well-known/openid-configuration', status: 200}
+    - {url: 'https://apimarketplaceprod.b2clogin.com/apimarketplaceprod.onmicrosoft.com/B2C_1A_SIGNUP/v2.0/.well-known/openid-configuration', status: 200}
+    - {url: 'https://apimarketplaceprod.b2clogin.com/apimarketplaceprod.onmicrosoft.com/v2.0/.well-known/openid-configuration', status: 404}
+    - {url: 'https://developer.ehi.com/llms.txt', status: 302, note: 302 to the AEM errorCode=404 template.}
+    - {url: 'https://developer.ehi.com/apis-overview.html', status: 200, note: 'Public marketplace search shell; anonymous results are empty across API Specs, FAQ, Guides and Release Notes.'}
+    - {url: 'https://developer.ehi.com/general/faqs.html', status: 302, note: Soft 404.}
+    - {url: 'https://developer.ehi.com/general/support.html', status: 302, note: Soft 404.}
+    - {url: 'https://developer.ehi.com/graphql/execute.json/apimarketplace', status: 302, note: No AEM headless GraphQL endpoint.}
+    - {url: 'https://developer.ehi.com/bin/querybuilder.json', status: 403}
+    - {url: 'https://www.enterprisemobility.com/en/news-stories.html', status: 200}
+    - {url: 'https://www.enterprisemobility.com/en/nav/about-us/compliance-ethics.html', status: 200}
+    - {url: 'https://www.enterprisemobility.com/en_us/privacy.html', status: 200}
+    - {url: 'https://www.enterprisemobility.com/content/dam/enterpriseholdings/functional/logos/png/em-og-image-default.png', status: 200, note: 'og:image logo; replaced the wrong icon that was on apis.yml image.'}
+    - {url: 'https://status.ehi.com', status: 000, note: DNS does not resolve.}
+    - {url: 'https://trust.ehi.com', status: 000, note: DNS does not resolve.}
+    - {url: 'https://api.entegral.com', status: 000, note: DNS does not resolve.}

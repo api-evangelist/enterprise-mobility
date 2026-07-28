@@ -1,0 +1,94 @@
+generated: '2026-07-28'
+method: searched
+source: >-
+  Live /.well-known/ probes across every Enterprise Mobility / EHI host on
+  2026-07-28, plus the Azure AD B2C tenant that fronts the EHI API Marketplace.
+note: >-
+  Enterprise Mobility publishes no /.well-known/ document on any of its own
+  hosts — security.txt, api-catalog, ai-plugin.json and openid-configuration all
+  404 on www.enterprisemobility.com, developer.ehi.com, api.ehi.com,
+  www.enterprise.com and www.entegral.com. The only real discovery documents in
+  the estate belong to the Azure AD B2C tenant (apimarketplaceprod) that gates
+  the EHI API Marketplace, and those ARE anonymously readable — two OpenID
+  Connect discovery documents, one per user-flow policy. They are saved verbatim
+  here because they are the single machine-readable contract Enterprise Mobility
+  exposes publicly.
+hosts:
+  - https://apimarketplaceprod.b2clogin.com
+  - https://developer.ehi.com
+  - https://api.ehi.com
+  - https://www.enterprisemobility.com
+  - https://www.enterprise.com
+  - https://www.entegral.com
+documents:
+  - host: https://apimarketplaceprod.b2clogin.com
+    path: /apimarketplaceprod.onmicrosoft.com/B2C_1A_SIGNIN/v2.0/.well-known/openid-configuration
+    status: 200
+    content_type: application/json
+    file: enterprise-mobility-openid-configuration.json
+    note: >-
+      OIDC discovery for the B2C_1A_SIGNIN policy — the sign-in flow every gated
+      developer.ehi.com dashboard route redirects to.
+  - host: https://apimarketplaceprod.b2clogin.com
+    path: /apimarketplaceprod.onmicrosoft.com/B2C_1A_SIGNUP/v2.0/.well-known/openid-configuration
+    status: 200
+    content_type: application/json
+    file: enterprise-mobility-openid-configuration-signup.json
+    note: OIDC discovery for the B2C_1A_SIGNUP (partner registration) policy.
+  - host: https://apimarketplaceprod.b2clogin.com
+    path: /apimarketplaceprod.onmicrosoft.com/v2.0/.well-known/openid-configuration
+    status: 404
+    note: Tenant-level discovery is not exposed; B2C requires a policy in the path.
+  - host: https://developer.ehi.com
+    path: /.well-known/security.txt
+    status: 404
+  - host: https://developer.ehi.com
+    path: /.well-known/openid-configuration
+    status: 404
+  - host: https://developer.ehi.com
+    path: /.well-known/apis.json
+    status: 404
+  - host: https://developer.ehi.com
+    path: /llms.txt
+    status: 302
+    note: 302 to the AEM error template (errorCode=404) — no llms.txt is published.
+  - host: https://api.ehi.com
+    path: /.well-known/security.txt
+    status: 404
+    note: Kong gateway JSON 404 — "no Route matched with those values".
+  - host: https://api.ehi.com
+    path: /.well-known/openid-configuration
+    status: 404
+  - host: https://api.ehi.com
+    path: /.well-known/oauth-authorization-server
+    status: 404
+  - host: https://api.ehi.com
+    path: /.well-known/api-catalog
+    status: 404
+  - host: https://api.ehi.com
+    path: /.well-known/ai-plugin.json
+    status: 404
+  - host: https://www.enterprisemobility.com
+    path: /.well-known/security.txt
+    status: 404
+  - host: https://www.enterprisemobility.com
+    path: /.well-known/api-catalog
+    status: 404
+  - host: https://www.enterprisemobility.com
+    path: /.well-known/ai-plugin.json
+    status: 404
+  - host: https://www.enterprisemobility.com
+    path: /llms.txt
+    status: 404
+  - host: https://www.enterprise.com
+    path: /.well-known/security.txt
+    status: 404
+  - host: https://www.entegral.com
+    path: /.well-known/security.txt
+    status: 404
+  - host: https://www.entegral.com
+    path: /llms.txt
+    status: 404
+security_txt: false
+api_catalog: false
+ai_plugin: false
