@@ -1,5 +1,47 @@
 # Enterprise Mobility (enterprise-mobility)
 
+<!-- API-EVANGELIST-PROVENANCE:BEGIN -->
+> ### About this repository
+>
+> **This is not our API.** This repository is an independent, third-party profile of a company's
+> **publicly available** API surface, maintained by [API Evangelist](https://apievangelist.com).
+> API Evangelist does not operate, host, resell, or support this company's APIs, and is not
+> affiliated with or endorsed by the company unless stated on the profile.
+>
+> **Where the information came from.** Everything here is assembled from material a member of the
+> public can reach with a browser and no credentials — the company's own website, developer portal
+> and documentation, the specifications it publishes for public use (OpenAPI, AsyncAPI, JSON Schema,
+> `apis.json`, `llms.txt` and similar), its public repositories, and its public status, pricing and
+> changelog pages. **Nothing here is obtained by breaching a system, defeating an access control, or
+> using credentials of any kind.**
+>
+> **The rating is an independent assessment.** The Kin Score and Agent Readiness rating are
+> independently calculated scores of a company's *public* API artifacts, produced by API Evangelist
+> against a published rubric. They are not certifications, endorsements, security assessments, or
+> audits, and they score published artifacts — not the quality, safety, or security of the software.
+>
+> **Corrections, re-scores, and removal are free.** No partnership, contract, or purchase is
+> required, and you do not need to justify the request.
+>
+> - **Something wrong?** Open an issue on this repository, or email
+>   [info@apievangelist.com](mailto:info@apievangelist.com).
+> - **Published something new?** Ask for a re-score and we will re-run the rating.
+> - **Want the listing taken down?** Say so and we will honor it. The profile is reduced to your
+>   company name, a factual description, and a link to your own site, and the company is recorded as
+>   **unrated** — never scored zero for having asked.
+>
+> **Response times.** Acknowledgement within **one business day**; removal or restriction within
+> **two business days**; corrections and re-scores within **five business days**.
+>
+> **On a security or compliance team?** Email
+> [info@apievangelist.com](mailto:info@apievangelist.com) with *security* in the subject line and
+> you will get a person, not a form. We will tell you exactly which public URLs this profile was
+> built from so your team can see the same surface we did, and we will take the listing down on
+> request while you work through it.
+>
+> Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
+<!-- API-EVANGELIST-PROVENANCE:END -->
+
 Enterprise Mobility is the Clayton, Missouri parent of Enterprise Rent-A-Car, National Car Rental and Alamo Rent a Car, and the largest car rental provider in the world — 90,000+ team members, 9,500+ rental branches across more than 90 countries and territories, a global fleet of over 2.4 million vehicles and $39 billion in 2025 fiscal-year revenue. Beyond leisure and corporate car rental it operates fleet management, flexible vehicle hire, carsharing, vanpooling, truck rental, car sales, vehicle subscription and the ARMS / Entegral replacement-rental technology used by insurers, collision repairers and dealerships. In the United States travel distribution chain it is a ground-transportation supplier whose inventory reaches buyers through GDS and OTA intermediaries, corporate travel programs and its own direct brand sites, rather than through any published public booking API. Its API posture is partner-gated and honestly so: EHI runs a real API Marketplace at developer.ehi.com with public marketing overviews for three business lines — Rental, Replacement Rental and Commute — but the API catalog, API specs, guides and release notes all sit behind Azure AD B2C sign-in and the portal states access is for "an Enterprise employee or trusted Partner" who should "contact your account manager ... to request access". No OpenAPI, no base URL and no endpoint is published publicly; probes of /openapi.json, /swagger.json, /api-docs and /.well-known/ return AEM soft-404 HTML or 404. The published API License Agreement grants only a "limited, revocable, non-transferable, non-sublicensable, non-exclusive" right, restricts use to the licensee's internal purpose, states the licensee has no ownership rights in Renter Information, and on termination requires the licensee to "delete or return any copies of the APIs and Enterprise Content" — public docs shell, gated specs, no exit path.
 
 **APIs.json:** [https://raw.githubusercontent.com/api-evangelist/enterprise-mobility/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/enterprise-mobility/refs/heads/main/apis.yml)
