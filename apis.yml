@@ -33,6 +33,17 @@ description: >-
   licensee has no ownership rights in Renter Information, and on termination requires
   the licensee to "delete or return any copies of the APIs and Enterprise Content" —
   public docs shell, gated specs, no exit path.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: >-
   https://www.enterprisemobility.com/content/dam/enterpriseholdings/functional/logos/png/em-og-image-default.png
 tags:
