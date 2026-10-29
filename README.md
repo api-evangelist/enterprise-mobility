@@ -1,4 +1,4 @@
-# Enterprise Mobility (enterprise-mobility)
+# Enterprise Mobility
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,110 +64,99 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Enterprise Mobility is the Clayton, Missouri parent of Enterprise Rent-A-Car, National Car Rental and Alamo Rent a Car, and the largest car rental provider in the world — 90,000+ team members, 9,500+ rental branches across more than 90 countries and territories, a global fleet of over 2.4 million vehicles and $39 billion in 2025 fiscal-year revenue. Beyond leisure and corporate car rental it operates fleet management, flexible vehicle hire, carsharing, vanpooling, truck rental, car sales, vehicle subscription and the ARMS / Entegral replacement-rental technology used by insurers, collision repairers and dealerships. In the United States travel distribution chain it is a ground-transportation supplier whose inventory reaches buyers through GDS and OTA intermediaries, corporate travel programs and its own direct brand sites, rather than through any published public booking API. Its API posture is partner-gated and honestly so: EHI runs a real API Marketplace at developer.ehi.com with public marketing overviews for three business lines — Rental, Replacement Rental and Commute — but the API catalog, API specs, guides and release notes all sit behind Azure AD B2C sign-in and the portal states access is for "an Enterprise employee or trusted Partner" who should "contact your account manager ... to request access". No OpenAPI, no base URL and no endpoint is published publicly; probes of /openapi.json, /swagger.json, /api-docs and /.well-known/ return AEM soft-404 HTML or 404. The published API License Agreement grants only a "limited, revocable, non-transferable, non-sublicensable, non-exclusive" right, restricts use to the licensee's internal purpose, states the licensee has no ownership rights in Renter Information, and on termination requires the licensee to "delete or return any copies of the APIs and Enterprise Content" — public docs shell, gated specs, no exit path.
+Enterprise Mobility is the Clayton, Missouri parent of Enterprise Rent-A-Car, National Car Rental and Alamo Rent a Car, and the largest car rental provider in the world — 90,000+ team members, 9,500+ rental branches across more than 90 countries and territories, a global fleet of over 2.4 million vehicles and $39 billion in 2025 fiscal-year revenue. Beyond leisure and corporate car rental it operates fleet management, flexible vehicle hire, carsharing, vanpooling, truck rental, car sales, vehicle subscription and the ARMS / Entegral replacement-rental technology used by insurers, collision repairers and dealerships. In the United States travel distribution chain it is a ground-transportation supplier whose inventory reaches buyers through GDS and OTA intermediaries, corporate travel programs and its own direct brand sites, rather than through any published public booking API. Its API posture is partner-gated and honestly so: EHI runs a real API Marketplace at developer.ehi.com with public marketing overviews for three business lines — Rental, Replacement Rental and Commute — but the API catalog, API specs, guides and release notes all sit behind Azure AD B2C sign-in and the portal states access is for "an Enterprise employee or trusted Partner" who should "contact your account manager ... to request access". No OpenAPI is published for those business lines; probes of /openapi.json, /swagger.json, /api-docs and /.well-known/ return AEM soft-404 HTML or 404. What is public is the plumbing around the gate: the production API gateway at api.ehi.com is a live Kong Gateway behind Imperva, the marketplace's own experience API publishes three POST endpoints in the portal's anonymous page source, the Azure AD B2C tenant serves two readable OpenID Connect discovery documents, and the sign-in link enumerates fourteen OAuth scopes covering catalog search, client-application registration and authorization requests. The published API License Agreement grants only a "limited, revocable, non-transferable, non-sublicensable, non-exclusive" right, restricts use to the licensee's internal purpose, states the licensee has no ownership rights in Renter Information, and on termination requires the licensee to "delete or return any copies of the APIs and Enterprise Content" — public docs shell, gated specs, no exit path.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/enterprise-mobility/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/enterprise-mobility/refs/heads/main/apis.yml)
+**Areas:** Travel · United States · Car Rental · Ground Transportation · Mobility · Corporate Travel · Distribution · Fleet Management · Insurance Replacement Rental · Booking
 
-## Tags
+## Enterprise Mobility on APIs.io
 
-- Travel
-- United States
-- Car Rental
-- Ground Transportation
-- Mobility
-- Corporate Travel
-- Distribution
-- Fleet Management
-- Insurance Replacement Rental
-- Booking
+Everything profiled for Enterprise Mobility is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/enterprise-mobility/](https://apis.io/providers/enterprise-mobility/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (4)
 
-- **Created:** 2026-07-28
-- **Modified:** 2026-07-28
+- [EHI Rental APIs](https://apis.io/apis/enterprise-mobility/ehi-rental-apis/) — The Rental business line of the EHI API Marketplace, covering Enterprise Rent-A-Car's network of neighborhood and airport branches. The public overview page…
+- [EHI Replacement Rental APIs](https://apis.io/apis/enterprise-mobility/ehi-replacement-rental-apis/) — The Replacement Rental business line of the EHI API Marketplace, exposing the ARMS (Automated Rental Management System) and Entegral platforms to insurance…
+- [EHI Commute APIs](https://apis.io/apis/enterprise-mobility/ehi-commute-apis/) — The Commute business line of the EHI API Marketplace, covering Commute with Enterprise vanpooling and rideshare-to-work programs sold to employers. The…
+- [EHI API Marketplace Experience API](https://apis.io/apis/enterprise-mobility/ehi-marketplace-experience-api/) — The backend-for-frontend that powers the EHI API Marketplace itself, and the only Enterprise Mobility API surface with endpoints published anonymously.…
 
-## APIs
+### Published properties
 
-### EHI Rental APIs
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-The Rental business line of the EHI API Marketplace, covering Enterprise Rent-A-Car's network of neighborhood and airport branches. The public overview page describes the capabilities as vehicle rental beyond traditional car rental and directs prospective consumers to register as an Enterprise employee or trusted Partner to shop the API catalog. No API names, base URL, endpoints, authentication scheme or specification are published outside the Azure AD B2C sign-in.
+#### Security (3)
 
-- **Human URL:** [https://developer.ehi.com/apis-overview/rental.html](https://developer.ehi.com/apis-overview/rental.html)
-- **Base URL:** none published
+Authentication, trust centre, and vulnerability disclosure.
 
-#### Tags
+- [Enterprise Mobility Authentication](https://apis.io/security/enterprise-mobility/enterprise-mobility-authentication/)
+- [Enterprise Mobility Domain Security](https://apis.io/security/enterprise-mobility/enterprise-mobility-domain-security/)
+- [Enterprise Mobility Vulnerability Disclosure](https://apis.io/security/enterprise-mobility/enterprise-mobility-vulnerability-disclosure/)
 
-- Car Rental
-- Reservations
-- Travel
+#### OAuth scopes (1)
 
-#### Properties
+The permissions the API asks for.
 
-- [Documentation](https://developer.ehi.com/apis-overview/rental.html)
-- [Portal](https://developer.ehi.com/)
-- [Website](https://www.enterprise.com/en/home.html)
-- [Terms of Service](https://developer.ehi.com/general/terms-of-use.html)
+- [Enterprise Mobility Scopes](https://apis.io/scopes/enterprise-mobility/enterprise-mobility-scopes/)
 
-### EHI Replacement Rental APIs
+## Where to find this API
 
-The Replacement Rental business line of the EHI API Marketplace, exposing the ARMS (Automated Rental Management System) and Entegral platforms to insurance providers, collision repair shops, dealership partners and fleet maintenance companies. The public overview page segments the capability set into three groups — Communication, Lifecycle and Data — and closes with "Note: Contact your account manager for more information and to request access." No specification, base URL or endpoint is published publicly.
-
-- **Human URL:** [https://developer.ehi.com/apis-overview/replacement-rental.html](https://developer.ehi.com/apis-overview/replacement-rental.html)
-- **Base URL:** none published
-
-#### Tags
-
-- Replacement Rental
-- Insurance
-- Collision Repair
-- Claims
-
-#### Properties
-
-- [Documentation](https://developer.ehi.com/apis-overview/replacement-rental.html)
-- [Portal](https://developer.ehi.com/)
-- [Website](https://www.entegral.com/)
-- [Terms of Service](https://developer.ehi.com/general/terms-of-use.html)
-
-### EHI Commute APIs
-
-The Commute business line of the EHI API Marketplace, covering Commute with Enterprise vanpooling and rideshare-to-work programs sold to employers. The public overview page describes the capability as APIs that "manage the process and create better experiences for your riders". No API names, base URL, endpoints or specification are published outside the gated catalog.
-
-- **Human URL:** [https://developer.ehi.com/apis-overview/commute.html](https://developer.ehi.com/apis-overview/commute.html)
-- **Base URL:** none published
-
-#### Tags
-
-- Vanpool
-- Rideshare
-- Commute
-- Corporate Travel
-
-#### Properties
-
-- [Documentation](https://developer.ehi.com/apis-overview/commute.html)
-- [Portal](https://developer.ehi.com/)
-- [Terms of Service](https://developer.ehi.com/general/terms-of-use.html)
-
-## Common Properties
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://www.enterprisemobility.com/)
-- [Portal](https://developer.ehi.com/)
-- [Documentation](https://developer.ehi.com/dashboard/get-started.html)
-- [Terms of Service](https://developer.ehi.com/general/terms-of-use.html)
-- [Privacy Policy](https://developer.ehi.com/general/privacy-policy.html)
-- [Contact](https://developer.ehi.com/general/contact-us.html)
-- [LinkedIn](https://www.linkedin.com/company/enterprise-mobility)
+- [Documentation](https://developer.ehi.com/apis-overview.html)
+- [Support](https://developer.ehi.com/general/contact-us.html)
+- [Blog](https://www.enterprisemobility.com/en/news-stories.html)
+- [Terms of service](https://developer.ehi.com/general/terms-of-use.html)
+- [Privacy policy](https://developer.ehi.com/general/privacy-policy.html)
 
-## Switching Cost
+## API Evangelist rating
 
-Recorded in full in [review.yml](review.yml).
+**Kin Score 24.1** — emerging · rubric 0.24.0 · scored 2026-10-17
 
-- **Interface shape:** `proprietary-undocumented` — no spec, base URL, endpoint or auth scheme is public. The one real open-standard signal is CIECA BMS on the Entegral/ARMS collision-claims side, asserted by CIECA rather than published by Enterprise. No OpenTravel conformance claim anywhere.
-- **Second source:** `alternatives-with-migration` — Sixt publishes a genuinely public developer portal; Hertz, Avis Budget and Europcar publish none that resolves; aggregators (CarTrawler, Amadeus Cars, Sabre Cars, Travelport) substitute for the supplier relationship. For insurers on ARMS/Entegral the picture is closer to few-alternatives.
-- **Exit path:** `no-export-published` — and worse than absent. Section 15 of the API License Agreement requires the licensee to "delete or return any copies of the APIs and Enterprise Content" on termination, and Section 1 denies the licensee any ownership rights in Renter Information.
-- **Identifier portability:** nothing published. No IATA/ARC, ACRISS/SIPP, airport or GDS vendor codes are named in Enterprise's own material; assume vendor-internal opaque ARMS/Entegral identifiers behind the gate.
-- **Contractual lock-in:** API License Agreement v1.0, effective 18 October 2022 — a "limited, revocable, non-transferable, non-sublicensable, non-exclusive" grant, internal use only unless Enterprise authorizes otherwise, redistribution "strictly forbidden", no uptime guarantee, quotas set at Enterprise's discretion, 30 days' written notice to leave versus termination by Enterprise "for any reason or no reason ... without notice".
-- **Distribution model:** `gds-intermediated` — a supplier, not a distributor. No public booking, shopping or rate API.
-- **NDC posture:** not applicable (car rental, not an airline).
-- **Access gate:** `partner-only` — Azure AD B2C registration is self-serve, but the catalog requires being "an Enterprise employee or trusted Partner", an account manager's approval, click-acceptance of the API License Agreement binding your employer, and an annual third-party security audit obligation on request.
+| Facet | Score |
+|---|---|
+| Discoverability | 62.5 |
+| Contract quality | 0.0 |
+| Contract governance | 18.2 |
+| Operational transparency | 0.0 |
+| Developer ergonomics | 38.1 |
+| Access clarity | 21.1 |
+
+**Agent readiness 5.4** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | — |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 42.1** — Insurance
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/enterprise-mobility/](https://apis.io/providers/enterprise-mobility/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Enterprise Mobility: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/enterprise-mobility/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
